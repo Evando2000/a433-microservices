@@ -1,32 +1,54 @@
+# Docker Compose Version
 version: '3.8'
+
+# List of all services
 services:
+  # App service
   item-app:
+    # Container image source
     image: ghcr.io/evando2000/item-app:v1
+    # Give name to this service's container
     container_name: item-app
+    # Ports mapping
     ports:
+      # Ports mapping from inside to outside container with format "Outside_Container:Inside_Container"
       - "80:8080"
+    # Restart policy to always restart when the container is stopped
     restart: always
+    # Define network for this container to communicate
     networks:
       - item-net
+    # Define all services which have to be run first before this service is started
     depends_on:
       - item-db
 
+  # DB Service
   item-db:
+    # Container image source
     image: mongo:3
+    # Give name to this service's container
     container_name: item-db
+    # Restart policy to always restart when the container is stopped
     restart: always
+    # Ports mapping
     ports:
+      # Ports mapping from inside to outside container with format "Outside_Container:Inside_Container"
       - "27017:27017"
+    # Define volume used to store data
     volumes:
+      # Define volume used to store data with format "volume_name:location_in_container"
       - app-db:/data/db
+    # Define network for this container to communicate
     networks:
       - item-net
 
+# Volume definition
 volumes:
   app-db:
     name: app-db
 
+# Network definition for all containers to communicate
 networks:
   item-net:
     name: item-net
-    driver: "bridge"
+    driver: "bridge" # This is the Docker network type
