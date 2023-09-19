@@ -1,16 +1,32 @@
 version: '3.8'
 services:
   item-app:
-    image: ghcr.io/Evando2000/item-app:v1
+    image: ghcr.io/evando2000/item-app:v1
+    container_name: item-app
     ports:
       - "80:8080"
+    restart: always
+    networks:
+      - item-net
     depends_on:
       - item-db
 
   item-db:
     image: mongo:3
+    container_name: item-db
+    restart: always
+    ports:
+      - "27017:27017"
     volumes:
       - app-db:/data/db
+    networks:
+      - item-net
 
 volumes:
-  - app-db
+  app-db:
+    name: app-db
+
+networks:
+  item-net:
+    name: item-net
+    driver: "bridge"
