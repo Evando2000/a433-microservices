@@ -6,6 +6,7 @@ docker tag evando2000/karsajobs-ui:latest ghcr.io/evando2000/karsajobs-ui:latest
 
 # Load all environment variables needed from a file named ".env"
 source .env
+source .env.local
 
 # Login to GitHub Packages
 echo $CR_PAT | docker login ghcr.io -u Evando2000 --password-stdin
