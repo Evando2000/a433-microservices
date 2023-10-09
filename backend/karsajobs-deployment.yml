@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-tier
+  labels:
+    app: karsajobs
+spec:
+  replicas: 0
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+    spec:
+      containers:
+      - name: server
+        image: ghcr.io/evando2000/karsajobs:latest
+        ports:
+          - containerPort: 8080
+        env:
+          - name: APP_PORT
+            value: 8080
+          - name: MONGO_HOST
+            value: $(DATA_TIER_SERVICE_PORT_MONGODB)
+          - name: MONGO_USER
+            value: $(DATA_TIER_SERVICE_PORT_MONGO_ROOT_USERNAME)
+          - name: MONGO_PASS
+            value: $(DATA_TIER_SERVICE_PORT_MONGO_ROOT_PASSWORD)

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app-tier
+  namespace: karsajobs-ns
   labels:
     app: microservices
     tier: app
